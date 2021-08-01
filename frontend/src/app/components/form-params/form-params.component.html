@@ -7,12 +7,19 @@
         <div class="card-body">
           <h5 class="card-title">Formulario para envio de parámetros</h5>
 
-          <form>
+          <form [formGroup]="formCalc" (ngSubmit)="saveParameters()" >
             <div class="form-group">
               <label for="params">Escriba parametros a enviar</label>
-              <textarea class="form-control mt-2" id="params" rows="3"></textarea>
+              <textarea class="form-control mt-2" id="params" rows="3"
+              formControlName="parameters"
+              >
+              </textarea>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+            <button type="submit" class="btn btn-primary mt-2"
+            [disabled]="formCalc.invalid"
+            >
+              Enviar
+          </button>
           </form>
           
         </div>

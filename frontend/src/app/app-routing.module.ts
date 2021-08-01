@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { FormParamsComponent } from './componets/form-params/form-params.component';
-import { HistoryComponent } from './componets/history/history.component'
+import { FormParamsComponent } from './components/form-params/form-params.component';
+import { HistoryComponent } from './components/history/history.component'
 
 const routes: Routes = [
   { path: '', component: FormParamsComponent},

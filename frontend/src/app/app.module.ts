@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormParamsComponent } from './componets/form-params/form-params.component';
-import { HistoryComponent } from './componets/history/history.component';
-import { NavigationComponent } from './componets/navigation/navigation.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormParamsComponent } from './components/form-params/form-params.component';
+import { HistoryComponent } from './components/history/history.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { NavigationComponent } from './componets/navigation/navigation.component
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
