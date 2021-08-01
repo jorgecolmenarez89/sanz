@@ -1,31 +1,52 @@
 
 <div class="row">
-  <div class="col col-md-1"></div>
-  <div class="col col-md-10">
+  <div class="col-12 col-md-2"></div>
+  <div class="col-12 col-md-8">
     <div class="wrapper">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Formulario para envio de parámetros</h5>
+          <h5 class="card-title">
+            Formulario para envio de parámetros
+            <button type="button" class="btn btn-dark btn-sm float-end" (click)="addField()" >
+              Añadir campo
+            </button>
+          </h5>
 
-          <form [formGroup]="formCalc" (ngSubmit)="saveParameters()" >
-            <div class="form-group">
-              <label for="params">Escriba parametros a enviar</label>
-              <textarea class="form-control mt-2" id="params" rows="3"
-              formControlName="parameters"
+          <form [formGroup]="form" (ngSubmit)="saveParameters()" >
+            <ng-container formArrayName="parameters">
+              <ng-container *ngFor="let paramsForm of parameters.controls; let i = index">
+                <div class="form-group" [formGroup]="paramsForm">
+                  <label class="mt-2">parámetro {{ i + 1 }}</label>
+                  <div class="row">
+                    <div class="col-11">
+                      <input type="text" formControlName="parammeter" class="form-control mt-2"> 
+                    </div>
+                    <div class="col-1" *ngIf="i > 0">
+                      <button type="button" class="btn btn-danger btn-sm float-end" (click)="deleteField(i)" >
+                        X
+                      </button>
+                    </div>
+                  </div>
+                </div> 
+              </ng-container>
+            </ng-container>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-dark btn-block mt-4"
+                [disabled]="form.invalid"
               >
-              </textarea>
+                Enviar
+              </button>
             </div>
-            <button type="submit" class="btn btn-primary mt-2"
-            [disabled]="formCalc.invalid"
-            >
-              Enviar
-          </button>
           </form>
-          
+
+          <div class="alert mt-2" [ngClass]="colorAlert" role="alert" *ngIf="showAlert" >
+            {{ textoAlert }}
+            <button type="button" class="btn-close float-end" aria-label="Close" (click)="showAlert = false"></button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col col-md-1"></div>
+  <div class="col-12 col-md-2"></div>
 </div>
 
