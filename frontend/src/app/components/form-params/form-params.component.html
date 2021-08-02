@@ -43,6 +43,17 @@
             {{ textoAlert }}
             <button type="button" class="btn-close float-end" aria-label="Close" (click)="showAlert = false"></button>
           </div>
+          <hr>
+          <h4>Ultimo calculo realizado</h4>
+          
+          <div class="card" *ngFor="let calc of calcs | async; let i = index" >
+            <div class="card-body" ngif="i === 0" >
+              <h5 class="card-title">Parámetros: {{calc.numbers}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Suma: {{ calc.result }}</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Parámetros sin sumar: {{ calc.invalidData }}</h6>
+            </div>
+          </div>
+ 
         </div>
       </div>
     </div>

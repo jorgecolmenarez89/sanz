@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './store/reducers/calc.reducer';
 
 import { FormParamsComponent } from './components/form-params/form-params.component';
 import { HistoryComponent } from './components/history/history.component';
@@ -23,7 +25,8 @@ import { HistoryItemComponent } from './components/history-item/history-item.com
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({calcs: reducer}),
   ],
   providers: [],
   bootstrap: [AppComponent]

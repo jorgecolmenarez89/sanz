@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray  } from '@angular/forms';
 import { CalcService } from 'src/app/services/calc.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app.state';
+import * as CalcActions from '../../store/actions/cacl.actions';
+import { Observable } from 'rxjs';
+import { Calc } from '../../models/calc.model';
 
 @Component({
   selector: 'app-form-params',
@@ -13,16 +18,24 @@ export class FormParamsComponent implements OnInit {
   textoAlert = '';
   showAlert = false; 
   form: FormGroup; 
-  
-  constructor( private fb: FormBuilder, private calcService: CalcService ) {
+  calcs: Observable<Calc[]>; 
+
+  constructor( 
+    private fb: FormBuilder, 
+    private calcService: CalcService,
+    private store: Store<AppState> 
+  ) {
     this.form = this.fb.group({
       parameters: this.fb.array([
         this.fb.group({parammeter: ['', Validators.required]})
       ])
     });
+    this.calcs = this.store.select('calcs');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.calcs)
+  }
 
   saveParameters() {
     const parametersValue = this.form.value;
@@ -30,19 +43,26 @@ export class FormParamsComponent implements OnInit {
     parametersValue.parameters.map(item => {
       parametersFormatArray.push(item.parammeter);
     }); 
-    console.log(parametersFormatArray);
     this.calcService.saveParams({numbers: parametersFormatArray}).subscribe(data => {
-      console.log(data);
-      this.textoAlert = `Parámetros enviados: ${data.numbers}  Suma de parámetros: ${data.result} Parámetros que no se puden sumar: ${data.invalidData}`;
-      this.colorAlert = 'alert-success';
-      this.showAlert = true;
+      this.buildMessage(true, data);
+      this.store.dispatch(new CalcActions.AddCalc(
+        { numbers: data.numbers, result: data.result, invalidData: data.invalidData }
+      ));
       this.form.reset();
     }, err => {
-      console.log('error', err);
+      this.buildMessage(false, err);
+    })
+  }
+
+  buildMessage(success, data){
+    if(success){
+      this.textoAlert = `Parámetros enviados: ${data.numbers}  Suma de parámetros: ${data.result} Parámetros que no se puden sumar: ${data.invalidData}`;
+      this.colorAlert = 'alert-success';
+    } else {
       this.textoAlert = 'Error al intentar enviar los párametros.';
       this.colorAlert = 'alert-danger';
-      this.showAlert = true;
-    })
+    }
+    this.showAlert = true;
   }
 
   get parameters() {
