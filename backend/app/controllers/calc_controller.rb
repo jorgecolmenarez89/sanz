@@ -1,7 +1,7 @@
 class CalcController < ApplicationController
   def index
     @cacl = Calc.all
-    render json: @cacl
+    render json: @cacl.order(created_at: :desc)
   end
 
   def create

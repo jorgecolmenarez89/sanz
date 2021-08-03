@@ -33,9 +33,7 @@ export class FormParamsComponent implements OnInit {
     this.calcs = this.store.select('calcs');
   }
 
-  ngOnInit(): void {
-    console.log(this.calcs)
-  }
+  ngOnInit(): void {}
 
   saveParameters() {
     const parametersValue = this.form.value;
