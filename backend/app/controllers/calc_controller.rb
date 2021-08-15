@@ -10,14 +10,12 @@ class CalcController < ApplicationController
     params[:numbers].each do |i|
       if (i.kind_of? Integer) || (i.kind_of? Float)
         @suma += i
-      elsif i.kind_of? String
+      else
         if is_number(i)
           @suma += i.to_f
         else
           @invalidData << i
-        end
-      else
-        @invalidData << i  
+        end 
       end
     end
    
@@ -37,5 +35,4 @@ class CalcController < ApplicationController
   def calc_params
     params.require(:calc).permit(:numbers)
   end
-
 end
